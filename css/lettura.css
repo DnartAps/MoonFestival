@@ -1,0 +1,27 @@
+/* Pagine di lettura (Privacy e cookie, Accessibilità del sito, Area stampa) · PROPOSTA DA VALIDARE CON SARAH
+   Regola del 2/11: su computer titolo a sinistra e testo a destra, allineati in alto; su telefono uno sotto l'altro.
+   Fondo bianco e testo viola-blu (il bianco è il colore delle pagine di lettura), filetto tra un blocco e l'altro.
+   Stesso hero e stesso sottomenu ad ancore delle altre pagine. */
+.lettura { background: var(--mf-bianco); color: var(--mf-viola-blu); padding-block: var(--spazio-sezione); }
+.lettura a { color: var(--mf-viola-blu); }
+.lettura__blocco {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 16px 64px; align-items: start;
+  padding: 40px 0 48px; border-top: 2px solid currentColor;
+}
+.lettura__blocco:last-child { border-bottom: 2px solid currentColor; }
+.lettura__titolo { margin: 0; font-size: clamp(26px, 3vw, 38px); line-height: 1.1; font-weight: 700; letter-spacing: -.025em; }
+.lettura__testo { max-width: 66ch; }
+.lettura__testo .testo { margin: 0 0 16px; font-size: 18px; line-height: 1.65; }
+.lettura__testo .testo:last-child { margin-bottom: 0; }
+.lettura__elenco { padding-left: 1.2em; }
+.lettura__elenco li { margin: 0 0 8px; padding-left: 4px; }
+.lettura__testo .bottone { color: var(--mf-viola-blu); border-color: var(--mf-viola-blu); }
+.lettura__testo .bottone:hover { background: var(--mf-viola-blu); color: var(--mf-bianco); }
+@media (max-width: 760px) { .lettura__blocco { grid-template-columns: minmax(0, 1fr); padding: 28px 0 36px; } }
+html.accessibile .lettura, html.accessibile .lettura a, html.accessibile .lettura__testo .bottone { color: var(--acc-scuro, #251B4B); border-color: var(--acc-scuro, #251B4B); }
+
+/* Selettore della stagione nel footer · PROPOSTA (Simone 9/11): stessa riga e stile dei link del footer,
+   quella attiva in grassetto e sottolineata come le voci correnti. */
+.footer__stagione { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; margin-top: 24px; font-size: 15px; }
+.footer__stagione a { color: inherit; }
+.footer__stagione a[aria-current] { font-weight: 700; text-decoration-thickness: 2px; }
