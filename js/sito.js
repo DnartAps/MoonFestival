@@ -13,6 +13,31 @@
   function leggi(chiave) { try { return window.localStorage.getItem(chiave); } catch (e) { return null; } }
   function scrivi(chiave, valore) { try { window.localStorage.setItem(chiave, valore); } catch (e) { /* niente */ } }
 
+  /* ---------- Metadati (SEO) ----------
+     Il blocco nella <head> lo scrive strumenti/seo.py in italiano.
+     In inglese qui si cambiano descrizione e anteprime social (testi in js/testi.js,
+     chiavi titolo.* e descr.*). Canonical e og:url passano a ?lang=en solo se
+     l'inglese è nell'indirizzo, cioè quando la pagina è davvero la versione inglese. */
+  function applicaMetadati(lingua, pagina) {
+    function metti(selettore, valore) {
+      var el = document.querySelector(selettore); if (el && valore) el.setAttribute('content', valore);
+    }
+    var t = TESTI['titolo.' + pagina], d = TESTI['descr.' + pagina], a = TESTI['seo.immagine.alt'];
+    if (d) { metti('meta[name="description"]', d[lingua]); metti('meta[property="og:description"]', d[lingua]); }
+    if (t) metti('meta[property="og:title"]', t[lingua]);
+    if (a) metti('meta[property="og:image:alt"]', a[lingua]);
+    metti('meta[property="og:locale"]', lingua === 'en' ? 'en_GB' : 'it_IT');
+    metti('meta[property="og:locale:alternate"]', lingua === 'en' ? 'it_IT' : 'en_GB');
+    var canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      var base = canonical.getAttribute('href').split('?')[0];
+      var inglese = (new URLSearchParams(window.location.search)).get('lang') === 'en';
+      var url = inglese ? base + '?lang=en' : base;
+      canonical.setAttribute('href', url);
+      metti('meta[property="og:url"]', url);
+    }
+  }
+
   /* ---------- Lingua ---------- */
   function applicaLingua(lingua) {
     if (lingua !== 'en') lingua = 'it';
@@ -34,6 +59,7 @@
     });
     var titolo = document.querySelector('title[data-t-titolo]');
     if (titolo) { var tt = TESTI[titolo.getAttribute('data-t-titolo')]; if (tt) document.title = tt[lingua]; }
+    if (titolo) applicaMetadati(lingua, titolo.getAttribute('data-t-titolo').replace('titolo.', ''));
     document.querySelectorAll('.lingue button').forEach(function (b) {
       b.setAttribute('aria-pressed', String(b.getAttribute('lang') === lingua));
     });

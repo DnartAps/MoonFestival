@@ -8506,12 +8506,51 @@ window.MOON_MODULI = {
       ]
      },
      {
-      "id": "ora_arrivo",
+      "id": "ora_ven",
       "tipo": "scelta",
       "obbl": true,
       "et": {
-       "it": "A che ora pensi di arrivare?",
-       "en": "What time do you think you will arrive?"
+       "it": "Venerdì 3 settembre: a che ora pensi di arrivare?",
+       "en": "Friday 3 September: what time do you think you will arrive?"
+      },
+      "aiuto": {
+       "it": "Anche a occhio: ci aiuta a organizzare le navette. Il venerdì le navette partono dalle 18:00.",
+       "en": "A rough guess is fine: it helps us organise the shuttles. On Friday the shuttles start at 18:00."
+      },
+      "opz": [
+       {
+        "it": "18:00–19:00",
+        "en": "18:00–19:00"
+       },
+       {
+        "it": "19:00–20:00",
+        "en": "19:00–20:00"
+       },
+       {
+        "it": "20:00–21:00",
+        "en": "20:00–21:00"
+       },
+       {
+        "it": "21:00–22:00",
+        "en": "21:00–22:00"
+       },
+       {
+        "it": "22:00–23:00",
+        "en": "22:00–23:00"
+       }
+      ],
+      "se": {
+       "campo": "giorni",
+       "vale": "Venerdì 3 settembre, dalle 18:00"
+      }
+     },
+     {
+      "id": "ora_sab",
+      "tipo": "scelta",
+      "obbl": true,
+      "et": {
+       "it": "Sabato 4 settembre: a che ora pensi di arrivare?",
+       "en": "Saturday 4 September: what time do you think you will arrive?"
       },
       "aiuto": {
        "it": "Anche a occhio: ci aiuta a organizzare le navette.",
@@ -8519,12 +8558,12 @@ window.MOON_MODULI = {
       },
       "opz": [
        {
-        "it": "16:00–17:00 (sabato e domenica)",
-        "en": "16:00–17:00 (Saturday and Sunday)"
+        "it": "16:00–17:00",
+        "en": "16:00–17:00"
        },
        {
-        "it": "17:00–18:00 (sabato e domenica)",
-        "en": "17:00–18:00 (Saturday and Sunday)"
+        "it": "17:00–18:00",
+        "en": "17:00–18:00"
        },
        {
         "it": "18:00–19:00",
@@ -8546,7 +8585,58 @@ window.MOON_MODULI = {
         "it": "22:00–23:00",
         "en": "22:00–23:00"
        }
-      ]
+      ],
+      "se": {
+       "campo": "giorni",
+       "vale": "Sabato 4 settembre, dalle 16:00"
+      }
+     },
+     {
+      "id": "ora_dom",
+      "tipo": "scelta",
+      "obbl": true,
+      "et": {
+       "it": "Domenica 5 settembre: a che ora pensi di arrivare?",
+       "en": "Sunday 5 September: what time do you think you will arrive?"
+      },
+      "aiuto": {
+       "it": "Anche a occhio: ci aiuta a organizzare le navette.",
+       "en": "A rough guess is fine: it helps us plan the shuttles."
+      },
+      "opz": [
+       {
+        "it": "16:00–17:00",
+        "en": "16:00–17:00"
+       },
+       {
+        "it": "17:00–18:00",
+        "en": "17:00–18:00"
+       },
+       {
+        "it": "18:00–19:00",
+        "en": "18:00–19:00"
+       },
+       {
+        "it": "19:00–20:00",
+        "en": "19:00–20:00"
+       },
+       {
+        "it": "20:00–21:00",
+        "en": "20:00–21:00"
+       },
+       {
+        "it": "21:00–22:00",
+        "en": "21:00–22:00"
+       },
+       {
+        "it": "22:00–23:00",
+        "en": "22:00–23:00"
+       }
+      ],
+      "se": {
+       "campo": "giorni",
+       "vale": "Domenica 5 settembre, dalle 16:00"
+      }
      },
      {
       "id": "persone",
