@@ -158,3 +158,23 @@ html.accessibile .mod-anteprima { border-color: var(--acc-scuro, #251B4B); color
 .mod-riepilogo a { display: inline-block; padding: 2px 0; }
 /* Versione accessibile: il passo attuale non prende il fondo pieno delle voci correnti (testo illeggibile, 1,5:1). */
 html.accessibile .mod-passi [aria-current] { background: transparent !important; color: var(--acc-scuro, #251B4B) !important; }
+
+/* ==========================================================================
+   C17 · MODULI (Simone, 20/11/2026) · DA RIVEDERE CON SARAH (S7)
+   h)  sotto i 640 px i passi stanno su una riga: solo i numeri in cerchio (area 44 px);
+       i nomi restano per lo screen reader (il passo attuale è già scritto sopra la domanda).
+   h2) sul computer la colonna del modulo è larga 680 px ed è centrata; il testo resta a sinistra.
+   ========================================================================== */
+.mod-sezione .contenitore > * { max-width: 680px; margin-inline: auto; }
+@media (max-width: 639px) {
+  .mod-passi ol { flex-wrap: nowrap; justify-content: space-between; gap: 4px; }
+  .mod-passi li { flex: 0 1 44px; min-width: 0; display: flex; justify-content: center; }
+  .mod-passi li > span, .mod-passi li > button { justify-content: center; width: 100%; min-width: 0; min-height: 44px; }
+  .mod-passi .mod-passi__t, .mod-passi li.ora .mod-passi__t {
+    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+  .mod-form { gap: 40px; }
+  .mod-blocco { gap: 24px; }
+  .mod-blocco > legend + * { margin-top: 24px; }
+}
