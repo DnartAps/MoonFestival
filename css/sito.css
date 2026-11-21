@@ -644,6 +644,10 @@ html.accessibile .dlg label a { text-decoration: underline !important; text-unde
   .split__foto { flex-basis: 100%; }
   .split__foto-riserva, .split__foto--4-3 .split__foto-riserva { aspect-ratio: 3 / 2; }
 }
+/* Home sul telefono (C20, D20 · sito-funzioni 5, 20/11/2026): foto in 3:2 come sul tablet, non 4:5 */
+@media (max-width: 599px) {
+  .pagina-home .split__foto-riserva, .pagina-home .split__foto--4-3 .split__foto-riserva { aspect-ratio: 3 / 2; }
+}
 /* Schermi grandi: colonna del testo un po' più larga di quella della foto (54/46) */
 @media (min-width: 1500px) {
   .split__foto { flex: 46 1 0; }

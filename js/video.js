@@ -56,3 +56,66 @@
   document.addEventListener('moon:lingua', aggiorna);
   aggiorna();
 })();
+
+/* Moon Festival · video brevi nei blocchi foto + testo (Cabina C27 · sito-funzioni 5, 21/11/2026)
+   - File nel sito (assets/video/), senza audio: partono da soli, muti, in loop, quando entrano nello schermo.
+   - Due misure dallo stesso file: <source media="(max-width: 767px)"> per il telefono, poi quella del computer.
+     Un browser che non capisce media prende la prima, cioè la più leggera.
+   - Si scaricano solo quando il blocco si avvicina allo schermo; fuori schermo si fermano.
+   - Bottone pausa/play sempre visibile mentre il video gira (WCAG 2.2.2).
+   - Con «riduci movimento» il video non si carica: resta la foto del blocco. */
+(function () {
+  var blocchi = document.querySelectorAll('.video-blocco');
+  if (!blocchi.length) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var TESTI = window.MOON_TESTI || {};
+  var L = function () { return document.documentElement.lang === 'en' ? 'en' : 'it'; };
+  var t = function (k) { return (TESTI[k] || {})[L()] || k; };
+
+  Array.prototype.forEach.call(blocchi, function (b) {
+    var v = b.querySelector('video'), img = b.querySelector('.video-blocco__copertina');
+    if (!v) return;
+    var inPausa = false, caricato = false, visibile = false;
+    v.muted = true;
+
+    var comandi = document.createElement('div');
+    comandi.className = 'video__comandi';
+    comandi.innerHTML = '<button type="button" class="video__bottone video__pausa">' +
+      '<svg class="ico-pausa" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>' +
+      '<svg class="ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="sr"></span></button>';
+    b.appendChild(comandi);
+    var bott = comandi.querySelector('button');
+
+    function aggiorna() {
+      bott.querySelector('.sr').textContent = t(inPausa ? 'video.play' : 'video.pausa');
+      bott.classList.toggle('attivo', inPausa);
+    }
+    function gioca() {
+      if (inPausa || !visibile) return;
+      var p = v.play(); if (p && p.catch) p.catch(function () {});
+    }
+    function carica() {
+      if (caricato) return; caricato = true;
+      Array.prototype.forEach.call(v.querySelectorAll('source[data-src]'), function (s) { s.src = s.getAttribute('data-src'); });
+      v.hidden = false;
+      v.addEventListener('playing', function () {
+        b.classList.add('attivo');
+        if (img) img.setAttribute('aria-hidden', 'true');   // ora si vede il video, che ha il suo testo alternativo
+      }, { once: true });
+      v.load();
+    }
+    bott.addEventListener('click', function () {
+      inPausa = !inPausa;
+      if (inPausa) v.pause(); else gioca();
+      aggiorna();
+    });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (voci) {
+        visibile = voci[0].isIntersecting;
+        if (visibile) { carica(); gioca(); } else if (caricato) v.pause();
+      }, { rootMargin: '200px 0px' }).observe(b);
+    } else { visibile = true; carica(); gioca(); }
+    document.addEventListener('moon:lingua', aggiorna);
+    aggiorna();
+  });
+})();

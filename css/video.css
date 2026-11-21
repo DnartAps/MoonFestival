@@ -25,3 +25,23 @@
 .sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 @media (min-width: 900px) { .video__comandi { right: 24px; bottom: 24px; } }
 html.accessibile .video__bottone { background: var(--acc-scuro, #251B4B); border-color: #fff; }
+
+/* ---------- Video nei blocchi foto + testo (Cabina C26/C27 · sito-funzioni 5, 21/11/2026) ----------
+   Il video si vede sempre intero, nel suo formato (4:5 o 3:2): il riquadro ha le proporzioni del video.
+   La foto del blocco resta come copertina (ritagliata nello stesso formato) finché il video non parte
+   e per chi ha «riduci movimento». Su computer il riquadro sta nella colonna della foto, entro l'80%
+   dell'altezza dello schermo (al massimo 720 px). Aspetto da far vedere a Sarah (S7). */
+.split__foto--video { display: flex; align-items: center; justify-content: center; }
+.video-blocco {
+  --r: .8; position: relative; overflow: hidden; line-height: 0;
+  width: min(100%, calc(min(80svh, 720px) * var(--r))); aspect-ratio: var(--r);
+}
+.video-blocco--3-2 { --r: 1.5; }
+.video-blocco__copertina, .video-blocco__video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.video-blocco__video { opacity: 0; transition: opacity .4s ease; }
+.video-blocco.attivo .video-blocco__video { opacity: 1; }
+.video-blocco.attivo .credito { display: none; }
+.video-blocco:not(.attivo) .video__comandi { display: none; }
+@media (prefers-reduced-motion: reduce) { .video-blocco__video { transition: none; } }
