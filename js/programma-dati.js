@@ -1,7 +1,7 @@
 /* Moon Festival · programma (ambito: Simone, contenuti e dati)
    Dati del programma 2026 (ATTIDICURA), dal sito attuale moonfestival.it/programma (estrazione del 30 ottobre 2026).
-   Inglese tradotto da Claude, da rivedere. Posizioni dei punti (x e y in %) ricopiate dalla mappa 2026
-   MAPPA_MoonFestival_2026_web.png. Allineati al Master Programma (8 novembre 2026). */
+   Inglese tradotto da Claude, da rivedere. Posizioni dei punti (x e y in % della tavola di Sarah, 8504×3402) dal PDF delle icone di Sarah
+   (MAPPA WEB_MoonFestival_ICONE.pdf, 22/11/2026, Cabina C69): ogni anno si cambiano solo queste. Allineati al Master Programma (8 novembre 2026). */
 window.MOON_PROGRAMMA = {
  "edizione": 5,
  "anno": 2026,
@@ -31,110 +31,117 @@ window.MOON_PROGRAMMA = {
  ],
  "pdf": "https://shaejo.s.gy/moonfestival-programma-2026",
  "mappa": {
-  "img": "assets/img/mappa-borgo-2026.jpg",
-  "larghezza": 2000,
-  "altezza": 753
+  "fondo": "assets/img/mappa/mappa-paese",
+  "larghezze": [
+   1200,
+   2400,
+   4800,
+   8504
+  ],
+  "larghezza": 8504,
+  "altezza": 3402,
+  "servizi": "assets/img/mappa/servizi.svg"
  },
  "luoghi": {
   "8": {
-   "x": 10.59,
-   "y": 54.94
+   "x": 12.71,
+   "y": 54.69
   },
   "9": {
-   "x": 16.68,
-   "y": 41.85
+   "x": 18.43,
+   "y": 43.12
   },
   "7": {
-   "x": 22.31,
-   "y": 46.95
+   "x": 23.8,
+   "y": 47.55
   },
   "10": {
-   "x": 22.57,
-   "y": 26.72
+   "x": 24.04,
+   "y": 29.63
   },
   "6": {
-   "x": 25.51,
-   "y": 44.91
+   "x": 26.84,
+   "y": 45.81
   },
   "11": {
-   "x": 34.29,
-   "y": 13.12
+   "x": 35.15,
+   "y": 17.46
   },
   "4": {
-   "x": 43.77,
-   "y": 37.09
+   "x": 44.13,
+   "y": 38.55
   },
   "5": {
-   "x": 43.83,
-   "y": 44.57
+   "x": 44.15,
+   "y": 45.5
   },
   "3": {
-   "x": 52.41,
-   "y": 41.51
+   "x": 52.27,
+   "y": 42.79
   },
   "2": {
-   "x": 59.9,
-   "y": 32.33
+   "x": 59.37,
+   "y": 34.62
   },
   "1": {
-   "x": 79.57,
-   "y": 54.77
+   "x": 78.01,
+   "y": 54.5
   },
   "G": {
-   "x": 6.94,
-   "y": 56.13
+   "x": 9.17,
+   "y": 55.58
   },
   "H": {
-   "x": 17.32,
-   "y": 31.82
+   "x": 19.04,
+   "y": 33.95
   },
   "F": {
-   "x": 18.02,
-   "y": 61.74
+   "x": 19.67,
+   "y": 60.67
   },
   "E": {
-   "x": 19.62,
-   "y": 50.35
+   "x": 21.23,
+   "y": 50.55
   },
   "I": {
-   "x": 29.16,
-   "y": 28.76
+   "x": 30.23,
+   "y": 31.24
   },
   "D": {
-   "x": 57.86,
-   "y": 45.76
+   "x": 57.43,
+   "y": 46.39
   },
   "B": {
-   "x": 63.56,
-   "y": 56.98
+   "x": 62.82,
+   "y": 56.44
   },
   "C": {
-   "x": 64.9,
-   "y": 48.14
+   "x": 64.09,
+   "y": 48.5
   },
   "A": {
-   "x": 86.55,
-   "y": 47.46
+   "x": 84.63,
+   "y": 47.9
   },
   "T": {
-   "x": 20.65,
-   "y": 28.59
+   "x": 22.2,
+   "y": 31.01
   },
   "L1": {
-   "x": 14.11,
-   "y": 53.07
+   "x": 15.99,
+   "y": 52.93
   },
   "L2": {
-   "x": 27.5,
-   "y": 43.89
+   "x": 28.69,
+   "y": 44.73
   },
   "L3": {
-   "x": 41.72,
-   "y": 44.23
+   "x": 42.14,
+   "y": 45.06
   },
   "L4": {
-   "x": 77.58,
-   "y": 47.8
+   "x": 76.11,
+   "y": 48.24
   }
  },
  "servizi": [

@@ -30,12 +30,27 @@
 .prog__elenco { min-width: 0; }
 .prog__mappa .h3, .prog__elenco .h3 { margin-bottom: 16px; }
 
-.mappa-scorri { max-width: 100%; }
+/* C69 · Mappa a tre livelli (Sarah 17–18): (1) il paese, immagine in 4 misure; (2) i servizi fissi,
+   SVG dalle icone di Sarah; (3) i punti dell'anno, bottoni disegnati da js/programma.js con le posizioni
+   in % di js/programma-dati.js. Si ingrandisce con le dita, con Ctrl + rotella o con i bottoni + e −
+   (WCAG 2.5.1). Larghezza di partenza almeno 1320 px: così ogni punto ha i suoi 24 px (WCAG 2.5.8),
+   anche 10 e T, 6 e L2. I punti crescono con la mappa (1,82% della larghezza, poco meno dell’1,93% della tavola: i punti più vicini, 6 e L2, 10 e T, distano 1,84% in orizzontale e così non si toccano). */
+.mappa-vista { position: relative; }
+.mappa-scorri { max-width: 100%; overflow: auto; touch-action: pan-x pan-y; overscroll-behavior: contain; }
 .mappa-scorri:focus-visible { outline: var(--focus-anello); }
-.mappa { position: relative; width: 100%; max-width: 100%; background: #F4F5F4; }
+.mappa { position: relative; width: var(--larghezza-mappa, max(100%, 1320px)); background: #F8F8F8; container-type: inline-size; }
 .mappa__fondo { display: block; width: 100%; height: auto; }
 .mappa__servizi { position: absolute; inset: 0; pointer-events: none; }
-.servizio { position: absolute; width: 22px; height: 22px; transform: translate(-50%, -50%); }
+.mappa__servizi img { display: block; width: 100%; height: 100%; }
+.mappa__zoom { position: absolute; top: 12px; right: 12px; z-index: 4; display: flex; flex-direction: column; gap: 8px; }
+.mappa__zoom-bottone {
+  display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
+  border: 2px solid var(--mf-bianco); border-radius: 50%; background: var(--mf-viola-profondo); color: var(--mf-bianco);
+  font: inherit; font-size: 26px; font-weight: 600; line-height: 1; cursor: pointer;
+}
+.mappa__zoom-bottone:hover { background: var(--mf-viola-blu); }
+.mappa__zoom-bottone:focus-visible { outline: var(--focus-anello); outline-offset: 2px; }
+.mappa__zoom-bottone[aria-disabled="true"] { opacity: .45; cursor: default; }
 /* Didascalia compatta: legenda in una riga + interruttore servizi + una nota breve */
 .mappa__comandi { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 24px; margin-top: 12px; }
 .mappa__comandi .legenda { margin: 0; }
@@ -49,9 +64,9 @@
 .mappa__arrivo { position: absolute; left: 12px; bottom: 10px; margin: 0; font-size: 13px; color: var(--mf-bianco); }
 .punto {
   position: absolute; transform: translate(-50%, -50%);
-  min-width: 30px; height: 30px; padding: 0 5px; border-radius: 999px;
+  display: grid; place-items: center; width: max(24px, 1.82cqw); height: max(24px, 1.82cqw); padding: 0; border-radius: 999px;
   border: 2px solid var(--mf-bianco); background: var(--pc); color: var(--pt);
-  font: inherit; font-size: 13px; font-weight: 700; line-height: 1; cursor: pointer;
+  font: inherit; font-size: max(11px, .8cqw); font-weight: 700; line-height: 1; letter-spacing: -.02em; cursor: pointer;
   box-shadow: 0 1px 4px rgba(37, 27, 75, .35);
   transition: transform .15s ease;
 }
@@ -147,8 +162,7 @@
 
 @media (max-width: 960px) {
   .prog { grid-template-columns: minmax(0, 1fr); }
-  .mappa-scorri { overflow-x: auto; margin-inline: calc(var(--margine-laterale) * -1); }
-  .mappa-scorri .mappa { min-width: 1000px; }
+  .mappa-vista { margin-inline: calc(var(--margine-laterale) * -1); }
   .prog__mappa { position: static; }
   .scheda__sopra { position: static; background: var(--mf-viola-blu); }
 }
@@ -157,7 +171,7 @@
 /* Versione accessibile: bianco e nero */
 html.accessibile .mappa { background: #FFF; border: 2px solid var(--acc-scuro, #251B4B); }
 html.accessibile .mappa__fondo { filter: grayscale(1); }
-html.accessibile .servizio, html.accessibile .legenda--servizi img { filter: grayscale(1) contrast(1.4); }
+html.accessibile .mappa__servizi img, html.accessibile .legenda--servizi img { filter: grayscale(1) contrast(1.4); }
 html.accessibile .punto, html.accessibile .legenda__segno { background: #FFF !important; color: var(--acc-scuro, #251B4B) !important; border-color: var(--acc-scuro, #251B4B) !important; }
 html.accessibile .punto[aria-pressed="true"], html.accessibile .filtro[aria-pressed="true"], html.accessibile .filtro--luogo, html.accessibile .etichetta-stato { background: var(--acc-scuro, #251B4B) !important; color: #FFF !important; }
 html.accessibile .filtro, html.accessibile .filtri__campo select, html.accessibile .carta__mappa { background: #FFF; color: var(--acc-scuro, #251B4B); border-color: var(--acc-scuro, #251B4B); }
@@ -183,13 +197,9 @@ html.accessibile .scheda__sopra { position: static; }
 @media (max-width: 640px) {
   .scheda__testa--post { grid-template-columns: minmax(0, 1fr); }
 }
-/* Telefono: mappa intera, senza scorrimento laterale, punti più piccoli */
+/* Telefono: la mappa si sposta col dito e si ingrandisce (C69); i punti restano da almeno 24 px */
 @media (max-width: 960px) {
-  .mappa-scorri { overflow-x: visible !important; margin-inline: 0 !important; }
-  .mappa-scorri .mappa { min-width: 0 !important; }
-  .punto { min-width: 20px; height: 20px; padding: 0 3px; font-size: 10px; border-width: 1.5px; }
-  .servizio { width: 13px; height: 13px; }
-  .punto--corso::after { inset: -4px; }
+  .punto--corso::after { inset: -5px; }
 }
 html.accessibile .pfoto__img, html.accessibile .scheda__post, html.accessibile .scheda__foto { filter: grayscale(1); }
 

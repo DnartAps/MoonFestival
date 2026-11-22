@@ -272,9 +272,7 @@
     var vedi = mostraServizi || stato.cat === 'servizi';
     box.hidden = !vedi;
     box.classList.toggle('mappa__servizi--grandi', stato.cat === 'servizi');
-    box.innerHTML = D.servizi.map(function (s) {
-      return '<img class="servizio" src="assets/img/servizi/' + s.tipo + '.png" alt="" style="left:' + s.x + '%;top:' + s.y + '%">';
-    }).join('');
+    /* il livello dei servizi è l'SVG fisso di Sarah (C69), già nella pagina: qui si accende e si spegne */
     if (lab) lab.textContent = x.servizi;
   }
   var casella = document.getElementById('prog-servizi-casella');
@@ -369,7 +367,81 @@
     var mappa = document.getElementById('prog-mappa');
     var ridotto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (mappa) mappa.scrollIntoView({ behavior: ridotto ? 'auto' : 'smooth', block: 'start' });
-    var p = el.mappa.querySelector('[data-luogo="' + c + '"]'); if (p) p.focus({ preventScroll: true });
+    var p = el.mappa.querySelector('[data-luogo="' + c + '"]'); if (p) { p.focus({ preventScroll: true }); centraPunto(p); }
+  }
+
+  /* ---------- Mappa ingrandibile (C69 e C19 · Sarah 17) ----------
+     Con le dita (due dita sulla mappa), con Ctrl + rotella o pinch del trackpad, e con i bottoni + e −
+     (WCAG 2.5.1: ogni gesto ha un'alternativa con un solo tocco). Lo spostamento è lo scorrimento normale.
+     La mappa cambia larghezza (non si usa transform): i punti restano bottoni veri, il browser sceglie
+     la misura giusta dell'immagine del paese (srcset) e il fuoco si vede sempre. */
+  var vista = document.querySelector('.mappa-scorri'), tela = vista && vista.querySelector('.mappa');
+  var zoom = 1, ZMIN = 1, ZMAX = 4, PASSI = [1, 1.5, 2, 3, 4], RAPPORTO = (D.mappa && D.mappa.altezza / D.mappa.larghezza) || 0.4;
+  function larghezzaBase() { return Math.max(vista.clientWidth, 1320); }
+  function impostaZoom(z, cx, cy) {
+    if (!tela) return;
+    z = Math.min(ZMAX, Math.max(ZMIN, z));
+    var prima = tela.offsetWidth, base = larghezzaBase();
+    if (cx == null) { cx = vista.clientWidth / 2; cy = vista.clientHeight / 2; }
+    var fx = (vista.scrollLeft + cx) / prima, fy = (vista.scrollTop + cy) / (tela.offsetHeight || 1);
+    zoom = z;
+    vista.style.height = Math.round(base * RAPPORTO) + 'px';   /* il riquadro resta alto come la mappa intera */
+    tela.style.setProperty('--larghezza-mappa', z === 1 ? '' : Math.round(base * z) + 'px');
+    if (z === 1) tela.style.removeProperty('--larghezza-mappa');
+    var img = tela.querySelector('picture source'); if (img) img.sizes = Math.round(base * z) + 'px';
+    vista.scrollLeft = fx * tela.offsetWidth - cx; vista.scrollTop = fy * tela.offsetHeight - cy;
+    document.querySelectorAll('[data-zoom]').forEach(function (b) {
+      var fermo = b.getAttribute('data-zoom') === 'piu' ? zoom >= ZMAX : zoom <= ZMIN;
+      b.setAttribute('aria-disabled', String(fermo));
+    });
+  }
+  function centraPunto(p) {
+    if (!vista) return;
+    var v = vista.getBoundingClientRect(), b = p.getBoundingClientRect();
+    vista.scrollLeft += (b.left + b.width / 2) - (v.left + v.width / 2);
+    vista.scrollTop += (b.top + b.height / 2) - (v.top + v.height / 2);
+  }
+  if (vista && tela) {
+    document.querySelectorAll('[data-zoom]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        if (b.getAttribute('aria-disabled') === 'true') return;
+        var su = b.getAttribute('data-zoom') === 'piu', z = zoom;
+        var prossimo = su ? PASSI.filter(function (x) { return x > z + 0.01; })[0] : PASSI.filter(function (x) { return x < z - 0.01; }).pop();
+        impostaZoom(prossimo == null ? (su ? ZMAX : ZMIN) : prossimo);
+      });
+    });
+    /* due dita: il rapporto tra le distanze cambia lo zoom, intorno al punto in mezzo alle dita
+       (con un dito la mappa scorre normalmente) */
+    var inizio = null;
+    function misura(t) {
+      var a = t[0], b = t[1], r = vista.getBoundingClientRect();
+      return { d: Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY), x: (a.clientX + b.clientX) / 2 - r.left, y: (a.clientY + b.clientY) / 2 - r.top };
+    }
+    vista.addEventListener('touchstart', function (e) {
+      if (e.touches.length === 2) { var m = misura(e.touches); inizio = { d: m.d, z: zoom }; }
+    }, { passive: true });
+    vista.addEventListener('touchmove', function (e) {
+      if (e.touches.length !== 2 || !inizio || !inizio.d) return;
+      e.preventDefault();
+      var m = misura(e.touches); impostaZoom(inizio.z * m.d / inizio.d, m.x, m.y);
+    }, { passive: false });
+    vista.addEventListener('touchend', function (e) { if (e.touches.length < 2) inizio = null; });
+    vista.addEventListener('touchcancel', function () { inizio = null; });
+    /* Ctrl + rotella (e il pinch del trackpad, che il browser manda così) */
+    vista.addEventListener('wheel', function (e) {
+      if (!e.ctrlKey) return;
+      e.preventDefault();
+      var r = vista.getBoundingClientRect();
+      impostaZoom(zoom * Math.exp(-e.deltaY / 300), e.clientX - r.left, e.clientY - r.top);
+    }, { passive: false });
+    /* da tastiera, con il fuoco sulla mappa: + e − */
+    vista.addEventListener('keydown', function (e) {
+      if (e.target !== vista) return;
+      if (e.key === '+' || e.key === '=') { e.preventDefault(); document.querySelector('[data-zoom="piu"]').click(); }
+      if (e.key === '-' || e.key === '_') { e.preventDefault(); document.querySelector('[data-zoom="meno"]').click(); }
+    });
+    window.addEventListener('resize', function () { impostaZoom(zoom); });
+    impostaZoom(1);
   }
   el.mappa.addEventListener('click', function (e) {
     var p = e.target.closest('[data-luogo]'); if (!p) return;
