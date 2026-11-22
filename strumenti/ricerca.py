@@ -41,6 +41,16 @@ def pulisci(s):
     return re.sub(r"\s+([.,;:)])", r"\1", s)
 
 
+def leggi_iscrizione():
+    """C58: interruttore dell'iscrizione ai laboratori in js/approfondimenti.js → risposta «si» o «no»."""
+    s = open(os.path.join(CARTELLA, "js", "approfondimenti.js"), encoding="utf-8").read()
+    m = re.search(r"MOON_ISCRIZIONE_LABORATORI\s*=\s*(true|false)", s)
+    return "no" if m and m.group(1) == "false" else "si"
+
+
+ISCRIZIONE = leggi_iscrizione()
+
+
 class Pagina(HTMLParser):
     """Raccoglie, per ogni contenitore con id, le chiavi data-t (titolo e testo)."""
 
@@ -66,6 +76,7 @@ class Pagina(HTMLParser):
             return
         a = dict(attrs)
         salta = (tag in SALTA or "hidden" in a or a.get("aria-hidden") == "true"
+                 or (a.get("data-iscrizione") and a.get("data-iscrizione") != ISCRIZIONE)  # C58
                  or "sr" in (a.get("class") or "").split())  # testi solo per screen reader
         voce = None
         if not self.saltando() and not salta and tag in CONTENITORI and a.get("id"):

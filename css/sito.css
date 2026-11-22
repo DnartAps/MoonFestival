@@ -373,10 +373,35 @@ input:focus-visible, summary:focus-visible {
   display: flex; align-items: center; justify-content: center; text-align: center;
   padding: 16px; font-size: 14px; letter-spacing: .08em; text-transform: uppercase;
 }
-.faq details { border-top: 1px solid currentColor; padding: 20px 0; }
-.faq summary { cursor: pointer; font-size: 20px; font-weight: 600; line-height: 1.4; }
-.faq details > div { padding-top: 12px; }
-.faq__fine { border-top: 1px solid currentColor; }
+/* Elementi nascosti da periodi, finestre e interruttori (attributo hidden): restano nascosti anche
+   quando la loro classe dà un display (es. .tile è una griglia). */
+[hidden] { display: none !important; }
+
+/* C38 · FAQ a tendine con gli stili del sito (Sarah 26): stesse tendine del Programma (segno + e –
+   in un cerchio), filetti da 2 px come le righe della Home, gruppi con il titolo H3. */
+.faq__intro { max-width: var(--larghezza-testo); margin: 0 0 8px; }
+.faq__gruppo { margin-top: 48px; border-bottom: 2px solid currentColor; }
+.faq__gruppo-titolo { margin: 0 0 16px; font-size: var(--h3-size); line-height: var(--h3-lh); letter-spacing: var(--h3-tracking); font-weight: var(--h3-weight); }
+.faq__gruppo-intro { margin: -8px 0 16px; max-width: var(--larghezza-testo); }
+.faq details { border-top: 2px solid currentColor; }
+.faq summary {
+  display: flex; align-items: center; gap: 16px; min-height: 56px; padding: 12px 0;
+  cursor: pointer; list-style: none; font-size: 20px; font-weight: 600; line-height: 1.4;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+"; flex: none; margin-left: auto; width: 32px; height: 32px; border: 2px solid currentColor;
+  border-radius: 999px; display: grid; place-items: center; font-size: 20px; line-height: 1; font-weight: 500;
+}
+.faq details[open] summary::after { content: "–"; }
+.faq__risposta { padding: 0 48px 20px 0; }
+.faq__risposta p { margin: 0 0 12px; max-width: var(--larghezza-testo); font-size: var(--testo-size); line-height: var(--testo-lh); }
+.faq__risposta p:last-child { margin-bottom: 0; }
+@media (max-width: 599px) {
+  .faq__gruppo { margin-top: 32px; }
+  .faq summary { font-size: 18px; }
+  .faq__risposta { padding-right: 0; }
+}
 
 /* Scheda dati (Il festival): dove, chi, quando, ingresso */
 .scheda-dati {
@@ -887,3 +912,6 @@ html.accessibile .tile:hover, html.accessibile .tile:focus-visible { color: var(
 @media (max-width: 960px) {
   .split--testo-prima .split__foto { order: 2; }
 }
+
+/* C51 · Con un numero dispari di tessere visibili l'ultima occupa tutta la riga (due tessere per riga) */
+@media (max-width: 1699px) { .hub .tile--intera { grid-column: 1 / -1; } }

@@ -36,6 +36,7 @@
   function visibile(v) {
     var A = window.MOON_APPROFONDIMENTI || {};
     if (A[v.p.replace('.html', '')] === false) return false;
+    if (v.p === 'iscrizione-laboratori.html' && window.MOON_ISCRIZIONE_LABORATORI === false) return false;   /* C58 */
     if (!v.per) return true;
     var stato = window.MOON_STATO || 'base';
     return stato === 'tutto' || v.per.split(/\s+/).indexOf(stato) !== -1;

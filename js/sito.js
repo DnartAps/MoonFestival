@@ -259,13 +259,16 @@
               ['#45328B', '#FFFFFF'], ['#ACA866', '#251B4B'], ['#FD8DA0', '#45328B']];
   function coloraTessere() {
     [].forEach.call(document.querySelectorAll('.hub'), function (hub) {
-      var i = 0;
+      var i = 0, ultima = null;
       [].forEach.call(hub.querySelectorAll('.tile'), function (t) {
+        t.classList.remove('tile--intera');
         if (t.hidden) return;
         t.style.setProperty('--c', GIRO[i % GIRO.length][0]);
         t.style.setProperty('--t', GIRO[i % GIRO.length][1]);
-        i++;
+        ultima = t; i++;
       });
+      /* tessere dispari: l'ultima occupa tutta la riga, così non resta un buco (due per riga) */
+      if (ultima && i % 2) ultima.classList.add('tile--intera');
     });
   }
   document.addEventListener('moon:finestre', coloraTessere);

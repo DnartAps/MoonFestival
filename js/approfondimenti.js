@@ -9,3 +9,10 @@ window.MOON_APPROFONDIMENTI = {
   'territorio': true,
   'partner': true
 };
+
+/* C58 · Iscrizione ai laboratori (ambito: Simone). Non è ancora deciso se si introduce.
+   true  = la pagina «Partecipa ai laboratori» si vede nei menu e nelle tessere; la FAQ
+           «I laboratori si prenotano?» risponde «Alcuni sì…».
+   false = la pagina sparisce dai menu e dalle tessere; la FAQ risponde «No: basta presentarsi…».
+   Dopo aver cambiato il valore: python3 strumenti/ricerca.py (la ricerca usa la risposta giusta). */
+window.MOON_ISCRIZIONE_LABORATORI = false;

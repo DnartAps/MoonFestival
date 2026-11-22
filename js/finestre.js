@@ -24,8 +24,15 @@
     try { var q = new URLSearchParams(location.search).get('periodo');
       anteprima = q === 'auto' ? false : (q === 'base' || q === 'prima' || q === 'durante') ? true : !!sessionStorage.getItem('moon-periodo'); } catch (e) {}
     document.querySelectorAll('[data-finestra]').forEach(function (el) {
-      var on = anteprima || aperto(el.getAttribute('data-finestra')) || !!el.querySelector('[aria-current="page"]') || el.getAttribute('aria-current') === 'page';
+      var qui = !!el.querySelector('[aria-current="page"]') || el.getAttribute('aria-current') === 'page';
+      var on = anteprima || aperto(el.getAttribute('data-finestra')) || qui;
+      /* C58: con l'iscrizione ai laboratori spenta (js/approfondimenti.js) la pagina sparisce da menu e tessere */
+      if (el.getAttribute('data-finestra') === 'iscrizione-laboratori' && window.MOON_ISCRIZIONE_LABORATORI === false && !qui) on = false;
       el.hidden = !on;
+    });
+    /* C58: risposta della FAQ «I laboratori si prenotano?» secondo l'interruttore */
+    document.querySelectorAll('[data-iscrizione]').forEach(function (el) {
+      el.hidden = (el.getAttribute('data-iscrizione') === 'si') !== (window.MOON_ISCRIZIONE_LABORATORI !== false);
     });
     document.dispatchEvent(new Event('moon:finestre'));   /* js/sito.js ricolora le tessere visibili (C51) */
   }
