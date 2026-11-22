@@ -10,7 +10,8 @@ git fetch -q origin main
 USCITA=${1:-.}
 COMMIT=$(git rev-parse --short origin/main)
 NOME="MoonFestival-sito_$(date +%Y-%m-%d_%H%M)_${COMMIT}.zip"
-git archive --format=zip --prefix=MoonFestival/ -o "$USCITA/$NOME" origin/main
+# le foto della Gallery (C70) restano fuori: gli originali sono già sul Drive
+git archive --format=zip --prefix=MoonFestival/ -o "$USCITA/$NOME" origin/main -- . ':(exclude)assets/img/gallery'
 # il connettore Drive carica al massimo 10 MB per file (codificato, cioè circa 7 MB veri): lo zip si divide in parti da 6 MB
 # (MoonFestival-sito_….z01, .z02 … e l'ultima .zip). Per riaprirlo: scaricare tutte le parti nella
 # stessa cartella e unirle con   zip -s 0 MoonFestival-sito_….zip --out intero.zip   poi aprire intero.zip.
