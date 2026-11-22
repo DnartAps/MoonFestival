@@ -35,7 +35,8 @@ def leggi_testi():
 
 
 def pulisci(s):
-    s = re.sub(r"<[^>]+>", " ", s or "")
+    s = re.sub(r'<span class="sr">.*?</span>', "", s or "")  # testi solo per screen reader
+    s = re.sub(r"<[^>]+>", " ", s)
     s = re.sub(r"\s+", " ", html.unescape(s)).strip()
     return re.sub(r"\s+([.,;:)])", r"\1", s)
 
@@ -64,7 +65,8 @@ class Pagina(HTMLParser):
         if tag in VUOTI:
             return
         a = dict(attrs)
-        salta = tag in SALTA or "hidden" in a or a.get("aria-hidden") == "true"
+        salta = (tag in SALTA or "hidden" in a or a.get("aria-hidden") == "true"
+                 or "sr" in (a.get("class") or "").split())  # testi solo per screen reader
         voce = None
         if not self.saltando() and not salta and tag in CONTENITORI and a.get("id"):
             voce = {"id": a["id"], "periodi": a.get("data-periodi", ""), "titolo": None, "chiavi": []}
@@ -73,6 +75,8 @@ class Pagina(HTMLParser):
         if self.saltando():
             return
         k = a.get("data-t")
+        if k and k.startswith("credito."):  # crediti delle foto: fuori dai risultati (C55)
+            k = None
         if tag == "h1" and k:
             self.h1 = k
         v = self.voce_corrente()

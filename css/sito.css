@@ -809,3 +809,20 @@ html.accessibile .dlg label a { text-decoration: underline !important; text-unde
   }
 }
 html.accessibile .tile:hover, html.accessibile .tile:focus-visible { color: var(--acc-scuro, #251B4B) !important; }
+
+/* ---------- C31 · Su telefono e tablet (niente mouse) l'effetto del passaggio non resta acceso
+   dopo il tocco: sembra selezionata solo la voce della pagina corrente (aria-current). ---------- */
+@media (hover: none) {
+  .sottomenu a:hover:not([aria-current]):not(:focus-visible):not(:active) {
+    background: none; color: inherit; font-weight: 500;
+  }
+  .tile:hover:not(:focus-visible):not(:active) { background: var(--c); color: var(--t); }
+  .tile:hover:not(:focus-visible):not(:active) .tile__bottone { border-color: currentColor; color: inherit; }
+}
+
+/* ---------- C29 · Home, «La prossima orbita» sul telefono: una sola linea tra «Ingresso libero»
+   e «Moon Festival» (il tabellone dei numeri continua nelle righe sotto). ---------- */
+@media (max-width: 599px) {
+  .dati + .riga-azione--prima { margin-top: 0; }
+  .dati:has(+ .riga-azione--prima) > div:last-child { border-bottom: 0; }
+}
