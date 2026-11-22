@@ -4,7 +4,7 @@
      La scelta resta memorizzata; ?lang=en nell'indirizzo apre direttamente l'inglese.
    - Versione accessibile: bianco e nero, memorizzata.
    - Menu mobile: apre e chiude il menu sotto i 960 px (Esc per chiudere).
-   - Ricerca: il bottone a icona porta il focus nel campo.
+   - Ricerca: il form dell'header porta a cerca.html (js/ricerca.js); le ancore dentro una tendina la aprono.
    - Periodi: base / prima / durante, in base alle date di js/periodi.js. */
 (function () {
   var TESTI = window.MOON_TESTI || {};
@@ -169,11 +169,31 @@
       c.addEventListener('click', function () { applicaAccessibile(c.getAttribute('aria-pressed') !== 'true'); });
     });
 
-    /* Ricerca */
+    /* Ricerca (C39): il form dell'header porta a cerca.html?q=…
+       Con il campo vuoto il bottone apre il campo e ci mette il focus, senza inviare. */
     document.querySelectorAll('.cerca').forEach(function (form) {
       var bottone = form.querySelector('button'), campo = form.querySelector('input');
-      if (bottone && campo) bottone.addEventListener('click', function () { campo.focus(); });
+      if (!bottone || !campo) return;
+      form.addEventListener('submit', function (e) {
+        if (!campo.value.trim()) { e.preventDefault(); campo.focus(); }
+      });
     });
+
+    /* Ancora dentro una tendina (<details>), es. una FAQ aperta da un risultato della ricerca:
+       la tendina si apre e il focus va sulla sua domanda. */
+    var apriAncora = function () {
+      var id = ''; try { id = decodeURIComponent(location.hash.slice(1)); } catch (e) { return; }
+      var el = id && document.getElementById(id); if (!el) return;
+      var d = el.tagName === 'DETAILS' ? el : el.closest('details');
+      if (!d) return;
+      for (var p = d; p; p = p.parentElement && p.parentElement.closest('details')) p.open = true;
+      var s = d.querySelector('summary');
+      if (s) { s.focus({ preventScroll: true }); el.scrollIntoView({ block: 'start' }); }
+    };
+    apriAncora();
+    /* di nuovo a pagina caricata: il browser, scorrendo all'ancora, toglie il focus messo prima */
+    if (document.readyState === 'complete') apriAncora(); else window.addEventListener('load', apriAncora);
+    window.addEventListener('hashchange', apriAncora);
 
     /* Bottoni «Copia» (es. IBAN nella pagina Sostieni): copia il valore senza spazi
        e annuncia l'esito nella regione role="status" vicina. */

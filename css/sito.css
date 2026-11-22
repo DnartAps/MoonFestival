@@ -300,6 +300,19 @@ input:focus-visible, summary:focus-visible {
 .footer__riga p + p { gap: 0 24px; }
 /* Link dentro il testo (es. mappa del parcheggio, C35): colore del testo, sottolineati */
 .testo a:not(.bottone), .faq p a:not(.bottone) { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+/* Pagina Cerca (C39): campo, risultati ed evidenziazione */
+.cerca-pagina { display: grid; gap: 8px; margin: 0 0 32px; }
+.cerca-pagina__etichetta { font-weight: 600; font-size: 18px; }
+.cerca-pagina__riga { display: flex; flex-wrap: wrap; gap: 12px; align-items: stretch; }
+.cerca-pagina input { flex: 1 1 220px; min-height: 48px; padding: 0 16px; border: 2px solid currentColor; border-radius: 999px; background: var(--mf-bianco); color: inherit; font: inherit; font-size: 18px; }
+.cerca-pagina button.bottone { background: transparent; cursor: pointer; color: inherit; font: inherit; }
+.cerca-esito__titolo { font-size: 22px; line-height: 1.3; margin: 0 0 24px; }
+.cerca-risultati { list-style: none; margin: 0; padding: 0; }
+.cerca-risultati li { border-top: 1px solid currentColor; padding: 16px 0; }
+.cerca-risultati__pagina { display: block; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+.cerca-risultati a { color: inherit; font-size: 20px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.cerca-risultati p { margin: 8px 0 0; font-size: 16px; line-height: 1.6; }
+.cerca-risultati mark { background: var(--mf-giallo, #ffd400); color: #251B4B; padding: 0 2px; }
 /* Dati legali di Dnart APS (C42) */
 .footer__legale { margin: 16px 0 0; font-size: 14px; line-height: 1.5; }
 .footer__riga svg { width: 18px; height: 18px; vertical-align: middle; }

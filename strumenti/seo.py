@@ -27,6 +27,7 @@ BASE = "https://moonfestival.it/"   # indirizzo definitivo, con / finale
 INDICIZZA = False                    # False = noindex (sito non ancora finito)
 IMMAGINE = "assets/img/condivisione/Ilum-collettivo_MoonFestival_5ed_borgo-notte_condivisione.jpg"
 IMMAGINE_W, IMMAGINE_H = 1200, 630
+MAI_INDICIZZARE = {"cerca.html"}     # pagine di servizio: sempre noindex, fuori dalla sitemap
 
 # Edizione in corso (dati confermati: documento "contenuti", 2.)
 FESTIVAL = {
@@ -73,7 +74,7 @@ def blocco(nome_file, chiave, titolo, descr, alt):
     img = BASE + IMMAGINE
     righe = [INIZIO, f"<title data-t-titolo=\"titolo.{chiave}\">{e(titolo)}</title>",
              f"<meta name=\"description\" content=\"{e(descr)}\">"]
-    if not INDICIZZA:
+    if not INDICIZZA or nome_file in MAI_INDICIZZARE:
         righe.append('<meta name="robots" content="noindex, follow">')
     righe += [
         f'<link rel="canonical" href="{url}">',
@@ -181,7 +182,7 @@ def main():
     for percorso in sorted(glob.glob(os.path.join(CARTELLA, "*.html"))):
         nome, errore = aggiorna_pagina(percorso, testi)
         (errori.append(errore) if errore else fatte.append(nome))
-    pagine = ["index.html"] + [p for p in fatte if p != "index.html"]
+    pagine = ["index.html"] + [p for p in fatte if p != "index.html" and p not in MAI_INDICIZZARE]
     scrivi_sitemap(pagine)
     print(f"{len(fatte)} pagine aggiornate · indicizza: {INDICIZZA} · base: {BASE}")
     for x in errori:

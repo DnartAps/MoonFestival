@@ -39,9 +39,9 @@
 <header class="header">
   <div class="contenitore header__inner">
     <div class="header__servizi">
-      <form class="cerca cerca--alto" role="search" onsubmit="return false">
-        <button type="button" aria-label="Cerca nel sito" data-t-aria="gen.cerca"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
-        <input type="search" placeholder="Cerca" aria-label="Cerca nel sito" data-t-ph="gen.cerca.ph" data-t-aria="gen.cerca">
+      <form class="cerca cerca--alto" role="search" action="cerca.html" method="get">
+        <button type="submit" aria-label="Cerca nel sito" data-t-aria="gen.cerca"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
+        <input type="search" name="q" placeholder="Cerca" aria-label="Cerca nel sito" data-t-ph="gen.cerca.ph" data-t-aria="gen.cerca">
       </form>
       <button type="button" class="header__accessibile" data-accessibile aria-pressed="false" aria-label="Versione accessibile" title="Versione accessibile" data-t-aria="gen.accessibile" data-t-title="gen.accessibile"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button>
       <div class="lingue" role="group" aria-label="Lingua del sito" data-t-aria="gen.lingua">
@@ -56,9 +56,9 @@
         <ul class="menu">
           <li><a href="il-festival.html" data-interno="il-festival.html" data-t="menu.il-festival">Il festival</a></li><li data-periodi="prima durante"><a href="programma.html" data-interno="programma.html" data-t="menu.programma">Programma</a></li><li><a href="partecipa.html" data-interno="partecipa.html" aria-current="page" data-t="menu.partecipa">Partecipa</a></li><li><a href="info-utili.html" data-interno="info-utili.html" data-t="menu.info-utili">Info utili</a></li><li><a href="accessibilita.html" data-interno="accessibilita.html" data-t="menu.accessibilita">Accessibilità</a></li><li><a href="sostenibilita.html" data-interno="sostenibilita.html" data-t="menu.sostenibilita">Sostenibilità</a></li><li><a href="edizioni.html" data-interno="edizioni.html" data-t="menu.edizioni">Edizioni</a></li><li><a href="sostieni.html" data-interno="sostieni.html" data-t="menu.sostieni">Sostieni</a></li>
           <li class="menu__cerca">
-            <form class="cerca" role="search" onsubmit="return false">
-              <button type="button" aria-label="Cerca nel sito" data-t-aria="gen.cerca"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
-              <input type="search" placeholder="Cerca" aria-label="Cerca nel sito" data-t-ph="gen.cerca.ph" data-t-aria="gen.cerca">
+            <form class="cerca" role="search" action="cerca.html" method="get">
+              <button type="submit" aria-label="Cerca nel sito" data-t-aria="gen.cerca"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
+              <input type="search" name="q" placeholder="Cerca" aria-label="Cerca nel sito" data-t-ph="gen.cerca.ph" data-t-aria="gen.cerca">
             </form>
           </li>
         </ul>
