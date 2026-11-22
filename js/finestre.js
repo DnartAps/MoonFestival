@@ -27,6 +27,7 @@
       var on = anteprima || aperto(el.getAttribute('data-finestra')) || !!el.querySelector('[aria-current="page"]') || el.getAttribute('aria-current') === 'page';
       el.hidden = !on;
     });
+    document.dispatchEvent(new Event('moon:finestre'));   /* js/sito.js ricolora le tessere visibili (C51) */
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applica); else applica();
 })();

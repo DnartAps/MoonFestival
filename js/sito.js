@@ -251,4 +251,44 @@
       voci.forEach(function (a) { oss.observe(document.getElementById(a.getAttribute('href').slice(1))); });
     }
   });
+
+  // C51 · Tessere di Partecipa (Sarah 8): colori mescolati sulle tessere visibili, in un giro di 6 colori
+  // (tutta la palette tranne il fucsia), così due tessere vicine non hanno mai lo stesso colore
+  // con 1, 2 o 5 tessere per riga, anche quando le date nascondono alcune tessere. Testo: quello previsto per l'area.
+  var GIRO = [['#FB5607', '#251B4B'], ['#3A86FF', '#251B4B'], ['#FFBE0B', '#45328B'],
+              ['#45328B', '#FFFFFF'], ['#ACA866', '#251B4B'], ['#FD8DA0', '#45328B']];
+  function coloraTessere() {
+    [].forEach.call(document.querySelectorAll('.hub'), function (hub) {
+      var i = 0;
+      [].forEach.call(hub.querySelectorAll('.tile'), function (t) {
+        if (t.hidden) return;
+        t.style.setProperty('--c', GIRO[i % GIRO.length][0]);
+        t.style.setProperty('--t', GIRO[i % GIRO.length][1]);
+        i++;
+      });
+    });
+  }
+  document.addEventListener('moon:finestre', coloraTessere);
+
+  // C28 · Alternanza dei blocchi (sito-funzioni, Sarah 14): quando foto e testo di un blocco stanno uno
+  // sotto l'altro (fino a 960 px), il blocco comincia con il testo se il blocco prima finisce con una
+  // foto o un video, e con la foto se finisce con un testo. Così non ci sono mai due media di fila,
+  // e due testi di fila solo dove ci sono due sezioni di solo testo una dopo l'altra.
+  function alternaBlocchi() {
+    var main = document.getElementById('contenuto'); if (!main) return;
+    var ultimo = 'T';
+    [].forEach.call(main.children, function (s) {
+      if (s.hidden || s.tagName === 'NAV' || s.tagName === 'SCRIPT') return;
+      var split = s.querySelector('.split');
+      if (split && split.querySelector('.split__foto') && split.querySelector('.split__testo')) {
+        var testoPrima = ultimo === 'M';
+        split.classList.toggle('split--testo-prima', testoPrima);
+        ultimo = testoPrima ? 'M' : 'T';
+        return;
+      }
+      var soloMedia = s.querySelector('.video, video, iframe') && !s.querySelector('h1, h2, h3, p');
+      ultimo = soloMedia ? 'M' : 'T';
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', alternaBlocchi); else alternaBlocchi();
 })();

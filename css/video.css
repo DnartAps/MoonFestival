@@ -45,3 +45,14 @@ html.accessibile .video__bottone { background: var(--acc-scuro, #251B4B); border
 .video-blocco.attivo .credito { display: none; }
 .video-blocco:not(.attivo) .video__comandi { display: none; }
 @media (prefers-reduced-motion: reduce) { .video-blocco__video { transition: none; } }
+
+/* ---------- C33 · Foto e video al filo (Sarah 15, 22/11): come le foto, il video riempie tutta la
+   colonna del blocco (sopra, sotto e lato esterno), senza margine colorato intorno, a ogni larghezza.
+   Il riquadro tiene il formato del video come misura di partenza (4:5 o 3:2, entro l'80% dello
+   schermo e 720 px); se la colonna del testo è più alta, il video si ritaglia ai bordi (cover). ---------- */
+.split__foto--video { display: block; }
+.split__foto--video::before {
+  content: ""; display: block; aspect-ratio: 4 / 5; max-height: min(80svh, 720px);
+}
+.split__foto--video:has(.video-blocco--3-2)::before { aspect-ratio: 3 / 2; }
+.split__foto--video .video-blocco { position: absolute; inset: 0; width: auto; aspect-ratio: auto; }
