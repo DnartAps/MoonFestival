@@ -466,7 +466,8 @@
     campi.forEach(aggiornaErrore);
     mostraRiepilogo(chiavi);
     var stato = document.getElementById('mod-stato'), bott = root.querySelector('.mod-invia');
-    var payload = { modulo: ID, genere: F.genere || 'call', edizione: String(CONF.edizione || ''), chiude: String(((CONF.stato || {})[ID] || {}).chiude || '').slice(0, 10), titolo: F.titolo.it, lingua: L(), pagina: location.href.split('?')[0], campi: righePerFoglio(), file: [] };
+    /* anno e scadenza li decide lo script (Cabina C6, D12): qui solo se l'invio arriva dall'anteprima ?periodo= */
+    var payload = { modulo: ID, genere: F.genere || 'call', anteprima: !!window.MOON_PERIODO_FORZATO, titolo: F.titolo.it, lingua: L(), pagina: location.href.split('?')[0], campi: righePerFoglio(), file: [] };
     var daLeggere = [];
     campi.forEach(function (c) { if (c.tipo === 'file' && visibile(c)) (files[c.id] || []).forEach(function (f) { daLeggere.push(leggiFile(f).then(function (o) { o.campo = c.id; o.etichetta = c.et.it; payload.file.push(o); })); }); });
     if (!CONF.url) {

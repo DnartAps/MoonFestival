@@ -138,7 +138,7 @@
     var stato = dlg.querySelector('.dlg-stato'), btn = dlg.querySelector('.dlg-invia');
     stato.textContent = tx(U.invio); btn.disabled = true;
     fetch(CONF.url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ modulo: modulo, edizione: String(CONF.edizione || ''), titolo: tx(M.titolo), lingua: L(), pagina: location.pathname, campi: campi, file: [] }) })
+      body: JSON.stringify({ modulo: modulo, titolo: tx(M.titolo), lingua: L(), pagina: location.pathname, campi: campi, file: [] }) })
       .then(function (r) { return r.json(); })
       .then(function (d) { if (!d || !d.ok) throw new Error(d && d.errore); valori = {}; esito(tx(M.ok), true); })
       .catch(function () { btn.disabled = false; stato.textContent = tx(U.ko); });
