@@ -298,6 +298,10 @@ input:focus-visible, summary:focus-visible {
 .footer__riga a { color: #fff; padding: 10px 0; display: inline-block; }
 .footer__riga p { margin: 0; display: flex; flex-wrap: wrap; gap: 0 16px; }
 .footer__riga p + p { gap: 0 24px; }
+/* Link dentro il testo (es. mappa del parcheggio, C35): colore del testo, sottolineati */
+.testo a:not(.bottone), .faq p a:not(.bottone) { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+/* Dati legali di Dnart APS (C42) */
+.footer__legale { margin: 16px 0 0; font-size: 14px; line-height: 1.5; }
 .footer__riga svg { width: 18px; height: 18px; vertical-align: middle; }
 
 /* ==========================================================================
@@ -436,6 +440,11 @@ input:focus-visible, summary:focus-visible {
 }
 .dona > div { border-top: 2px solid currentColor; padding-top: 24px; }
 .dona p { margin: 0 0 24px; font-size: 18px; line-height: 1.6; }
+/* QR Satispay vero (C21): solo da 768 px in su; sul telefono resta il bottone che apre l'app. Scuro su chiaro. */
+.dona__qr { display: block; width: 160px; height: 160px; background: #fff; padding: 8px; margin-bottom: 16px; }
+@media (max-width: 767px) { .dona__qr { display: none; } }
+.iban__numero { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.dona button.bottone { background: transparent; cursor: pointer; color: inherit; font: inherit; }
 .qr-segnaposto { width: 160px; aspect-ratio: 1; border: 2px dashed currentColor; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 13px; padding: 12px; margin-bottom: 16px; }
 
 /* ==========================================================================

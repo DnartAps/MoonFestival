@@ -78,11 +78,11 @@
 <section id="dona" class="sfondo-arancio sezione"><div class="contenitore">
 <p class="occhiello" data-t="sost.sm.2">Come donare</p><h2 class="h2" data-t="sost.dona.h2">Un gesto, tre modi.</h2>
 <div class="dona">
-<div><h3 class="h3">Satispay</h3><div class="qr-segnaposto" role="img" aria-label="QR Satispay" data-t="sost.qr">QR Satispay</div>
-<p data-t="sost.sat.t">Dal computer inquadra il QR code. Dal telefono tocca il pulsante.</p><a class="bottone" href="#"><span data-t="sost.sat.b">Dona con Satispay</span><svg aria-hidden="true"><use href="#freccia"/></svg></a></div>
-<div><h3 class="h3">PayPal</h3><p data-t="sost.pp.t">Dona in pochi tocchi dal profilo PayPal del festival.</p><a class="bottone" href="https://paypal.me/moonfes" target="_blank" rel="noopener"><span data-t="sost.pp.b">Dona con PayPal</span><svg aria-hidden="true"><use href="#freccia"/></svg></a></div>
-<div><h3 class="h3" data-t="sost.bon.h">Bonifico</h3><p data-t="sost.bon.t">Intestato ad Associazione Culturale DNART APS. Nella causale scrivi «Donazione Moon Festival» e il tuo nome e cognome.</p>
-<p data-t="sost.iban">IBAN: [IBAN DNART APS]</p></div>
+<div><h3 class="h3">Satispay</h3><img class="dona__qr" src="assets/img/satispay-moon-offerte-qr.png" width="160" height="160" alt="QR code Satispay per donare al Moon Festival" data-t-alt="sost.qr">
+<p data-t="sost.sat.t">Dal computer inquadra il QR code. Dal telefono tocca il pulsante.</p><a class="bottone" href="https://www.satispay.com/download/qrcode/S6Y-SHP--F7BC1FB8-90EB-4A45-A2EC-9A6CBFF57F14" target="_blank" rel="noopener"><span data-t="sost.sat.b">Dona con Satispay</span><svg aria-hidden="true"><use href="#freccia"/></svg><span class="sr" data-t="gen.nuova.scheda">(si apre in una nuova scheda)</span></a></div>
+<div><h3 class="h3">PayPal</h3><p data-t="sost.pp.t">Dona in pochi tocchi dal profilo PayPal del festival.</p><a class="bottone" href="https://paypal.me/moonfes" target="_blank" rel="noopener"><span data-t="sost.pp.b">Dona con PayPal</span><svg aria-hidden="true"><use href="#freccia"/></svg><span class="sr" data-t="gen.nuova.scheda">(si apre in una nuova scheda)</span></a></div>
+<div><h3 class="h3" data-t="sost.bon.h">Bonifico</h3><p data-t="sost.bon.t">Intestato a DN-ART ARTI MIMICHE & GESTUALI, Banca d’Asti, filiale di Castelnuovo Don Bosco. Nella causale scrivi «Donazione Moon Festival» e il tuo nome e cognome.</p>
+<p class="iban"><span data-t="sost.iban">IBAN</span>: <span class="iban__numero">IT50 Y060 8547 3800 0000 0022 353</span></p><p><button type="button" class="bottone" data-copia="IT50Y0608547380000000022353" data-copia-ok="sost.iban.copiato" data-copia-errore="sost.iban.errore"><span data-t="sost.iban.copia">Copia l’IBAN</span></button></p><p class="sr" role="status" data-copia-esito></p></div>
 </div></div></section>
 </main>
 <footer class="footer">
@@ -120,6 +120,7 @@
         <a href="?periodo=durante" data-periodo-link="durante" data-t="gen.stagione.durante">Durante il festival</a>
       </nav>
     </div>
+    <p class="footer__legale" data-t="gen.footer.legale">Associazione Culturale Dnart APS · sede legale Corso Peschiera 355/9, 10141 Torino · C.F. 97709700013 · P.IVA 13462710016</p>
   </div>
 </footer>
 <script src="js/testi.js"></script>

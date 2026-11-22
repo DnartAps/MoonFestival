@@ -175,6 +175,24 @@
       if (bottone && campo) bottone.addEventListener('click', function () { campo.focus(); });
     });
 
+    /* Bottoni «Copia» (es. IBAN nella pagina Sostieni): copia il valore senza spazi
+       e annuncia l'esito nella regione role="status" vicina. */
+    document.querySelectorAll('[data-copia]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var esito = b.closest('div').querySelector('[data-copia-esito]');
+        function annuncia(chiave) {
+          var t = TESTI[chiave]; if (!esito || !t) return;
+          esito.textContent = '';
+          setTimeout(function () { esito.textContent = t[html.getAttribute('lang') === 'en' ? 'en' : 'it']; }, 50);
+        }
+        var valore = b.getAttribute('data-copia');
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(valore).then(function () { annuncia(b.getAttribute('data-copia-ok')); },
+            function () { annuncia(b.getAttribute('data-copia-errore')); });
+        } else annuncia(b.getAttribute('data-copia-errore'));
+      });
+    });
+
     /* Menu mobile */
     var header = document.querySelector('.header');
     var bottoneMenu = document.querySelector('.menu-bottone');
