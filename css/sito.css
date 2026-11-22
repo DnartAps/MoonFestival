@@ -185,7 +185,13 @@ input:focus-visible, summary:focus-visible {
 .split__foto--4-3 .split__foto-riserva { aspect-ratio: 4 / 3; }
 .split__foto-cornice { position: absolute; inset: 0; overflow: hidden; }
 .split__foto-cornice img {
-  width: 100%; height: 100%; object-fit: cover; object-position: center; display: block;
+  width: 100%; height: 100%; object-fit: cover; object-position: var(--ritaglio-pc, 50% 50%); display: block;
+}
+/* C30 · Punto di ritaglio deciso da Simone con le cornici della presentazione «Sito Moon · pagine»
+   (blu = computer, fucsia = telefono e tablet): /aggiorna-testi scrive --ritaglio-pc e --ritaglio-tel
+   nello style della foto. Senza cornici il taglio resta al centro. */
+@media (max-width: 960px) {
+  .split__foto-cornice img, .video-blocco__copertina { object-position: var(--ritaglio-tel, 50% 50%); }
 }
 .credito {
   position: absolute; top: 16px; left: 16px; padding: 8px 14px;
@@ -1025,6 +1031,7 @@ html.accessibile .video__bottone { background: var(--acc-scuro, #251B4B); border
 .video-blocco__copertina, .video-blocco__video {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
 }
+.video-blocco__copertina { object-position: var(--ritaglio-pc, 50% 50%); }
 .video-blocco__video { opacity: 0; transition: opacity .4s ease; }
 .video-blocco.attivo .video-blocco__video { opacity: 1; }
 .video-blocco.attivo .credito { display: none; }
