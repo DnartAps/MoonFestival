@@ -152,18 +152,6 @@ input:focus-visible, summary:focus-visible {
 .cerca input:focus-visible { outline: none; box-shadow: none; }
 .cerca:focus-within { box-shadow: 0 0 0 3px #fff, 0 0 0 6px var(--mf-viola-profondo); }
 
-/* ---------- Video della Home (16:9 a tutta larghezza) ---------- */
-.video {
-  position: relative; aspect-ratio: var(--rapporto-video-home); width: 100%;
-  background: var(--mf-segnaposto-scuro); color: #fff;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 20px; text-align: center; padding: 24px;
-}
-.video__play {
-  display: flex; align-items: center; justify-content: center;
-  width: 88px; height: 88px; border: 3px solid #fff; border-radius: 50%;
-}
-
 /* ---------- Hero della Home ---------- */
 .hero-home__inner {
   padding-top: clamp(56px, 8vw, 104px);
@@ -562,8 +550,6 @@ html.accessibile .tile { grid-template-columns: 1fr; border: 2px solid var(--acc
 html.accessibile .video, html.accessibile .segnaposto-scuro {
   background: #FFF !important; color: var(--acc-scuro, #251B4B) !important; border: 2px solid var(--acc-scuro, #251B4B);
 }
-html.accessibile .video__play { border-color: var(--acc-scuro, #251B4B); }
-html.accessibile .video__play svg { fill: var(--acc-scuro, #251B4B); }
 html.accessibile *:focus-visible { outline: 3px solid var(--acc-scuro, #251B4B) !important; outline-offset: 3px; box-shadow: 0 0 0 6px #FFF !important; }
 html.accessibile * { transition: none !important; text-shadow: none !important; }
 html.accessibile .header__accessibile input, html.accessibile .menu-pannello__accessibile input { accent-color: var(--acc-scuro, #251B4B); }
@@ -915,3 +901,143 @@ html.accessibile .tile:hover, html.accessibile .tile:focus-visible { color: var(
 
 /* C51 · Con un numero dispari di tessere visibili l'ultima occupa tutta la riga (due tessere per riga) */
 @media (max-width: 1699px) { .hub .tile--intera { grid-column: 1 / -1; } }
+
+/* ==========================================================================
+   Finestre di dialogo (ex css/dialogo.css) · unito a sito.css il 22/11/2026 (C56)
+   ========================================================================== */
+/* Finestre "Scrivici" e "Newsletter" · PROPOSTA DA VALIDARE CON SARAH
+   Stesso linguaggio dei moduli delle call: fondo bianco, testo viola-blu, campi con bordo 2px,
+   etichette grandi in grassetto. La finestra è centrata; su telefono occupa tutto lo schermo. */
+.sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.dlg { width: min(640px, calc(100vw - 32px)); max-height: calc(100vh - 32px); padding: 0; border: 0; background: var(--mf-bianco); color: var(--mf-viola-blu); overflow: auto; }
+.dlg::backdrop { background: rgba(37, 27, 75, .7); }
+.dlg-cornice { padding: clamp(20px, 4vw, 40px); }
+.dlg-testa { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.dlg-titolo { margin: 0; font-size: clamp(28px, 4vw, 40px); line-height: 1.05; font-weight: 700; letter-spacing: -.03em; }
+.dlg-chiudi { flex: none; display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 2px solid var(--mf-viola-blu); border-radius: 50%; background: none; color: var(--mf-viola-blu); font: inherit; font-size: 28px; line-height: 1; cursor: pointer; }
+.dlg-chiudi:hover { background: var(--mf-lilla-chiaro); }
+.dlg-intro, .dlg-esito { margin: 12px 0 24px; font-size: 17px; line-height: 1.5; }
+.dlg-esito { padding: 20px; font-weight: 600; }
+.dlg-esito--ok { background: var(--mf-giallo); color: var(--mf-viola-profondo); }
+.dlg-form { display: grid; gap: 22px; }
+.dlg-campo { display: grid; gap: 8px; }
+.dlg-campo > label { font-size: 18px; font-weight: 700; }
+.dlg-nota { font-size: 14px; font-weight: 500; }
+.dlg-aiuto { margin: -4px 0 0; font-size: 15px; }
+.dlg-input { width: 100%; min-height: 52px; padding: 10px 14px; border: 2px solid var(--mf-viola-blu); border-radius: 0; background: var(--mf-bianco); color: var(--mf-viola-profondo); font: inherit; font-size: 17px; }
+.dlg-area { min-height: 130px; resize: vertical; line-height: 1.5; }
+.dlg-campo--consenso { grid-template-columns: 26px minmax(0, 1fr); align-items: start; gap: 6px 12px; }
+.dlg-campo--consenso input { width: 24px; height: 24px; margin: 2px 0 0; accent-color: var(--mf-viola-blu); }
+.dlg-campo--consenso label { font-size: 16px; font-weight: 400; line-height: 1.5; }
+.dlg-campo--consenso .dlg-errore { grid-column: 2; }
+.dlg a { color: var(--mf-viola-blu); }
+.dlg-input[aria-invalid="true"] { border-color: #C0144B; }
+.dlg-errore { margin: 0; padding-left: 10px; border-left: 4px solid #C0144B; color: #A3103F; font-size: 15px; font-weight: 600; }
+.dlg-riepilogo { margin: 0 0 20px; padding: 16px 20px; border: 3px solid #C0144B; background: #FFF4F7; color: var(--mf-viola-profondo); }
+.dlg-riepilogo__titolo { margin: 0 0 6px; font-weight: 700; }
+.dlg-riepilogo ul { margin: 0; padding-left: 20px; }
+.dlg-riepilogo a { color: #A3103F; font-weight: 600; }
+.dlg-azioni { padding-top: 4px; }
+.dlg-invia, .dlg-fine { color: var(--mf-viola-blu); border-color: var(--mf-viola-blu); background: transparent; cursor: pointer; }
+.dlg-invia:hover, .dlg-fine:hover { background: var(--mf-viola-blu); color: var(--mf-bianco); }
+.dlg-invia[disabled] { opacity: .5; cursor: progress; }
+.dlg-stato { margin: 0; font-weight: 600; }
+.dlg-trappola { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.dlg :focus-visible { outline: 3px solid var(--mf-viola-blu); outline-offset: 3px; }
+@media (max-width: 640px) { .dlg { width: 100vw; max-width: 100vw; height: 100%; max-height: 100%; margin: 0; } }
+html.accessibile .dlg, html.accessibile .dlg a { color: var(--acc-scuro, #251B4B); }
+html.accessibile .dlg-input, html.accessibile .dlg-chiudi { border-color: var(--acc-scuro, #251B4B); color: var(--acc-scuro, #251B4B); }
+
+/* Il festival e pagine di approfondimento */
+.solo-en:empty { display: none; }
+.testo--forte { font-size: clamp(22px, 2.6vw, 30px); line-height: 1.25; font-weight: 700; letter-spacing: -.015em; }
+
+/* ==========================================================================
+   Pagine di lettura (ex css/lettura.css) · unito a sito.css il 22/11/2026 (C56)
+   ========================================================================== */
+/* Pagine di lettura (Privacy e cookie, Accessibilità del sito, Area stampa) · PROPOSTA DA VALIDARE CON SARAH
+   Regola del 2/11: su computer titolo a sinistra e testo a destra, allineati in alto; su telefono uno sotto l'altro.
+   Fondo bianco e testo viola-blu (il bianco è il colore delle pagine di lettura), filetto tra un blocco e l'altro.
+   Stesso hero e stesso sottomenu ad ancore delle altre pagine. */
+.lettura { background: var(--mf-bianco); color: var(--mf-viola-blu); padding-block: var(--spazio-sezione); }
+.lettura a { color: var(--mf-viola-blu); }
+.lettura__blocco {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 16px 64px; align-items: start;
+  padding: 40px 0 48px; border-top: 2px solid currentColor;
+}
+.lettura__blocco:last-child { border-bottom: 2px solid currentColor; }
+.lettura__titolo { margin: 0; font-size: clamp(26px, 3vw, 38px); line-height: 1.1; font-weight: 700; letter-spacing: -.025em; }
+.lettura__testo { max-width: 66ch; }
+.lettura__testo .testo { margin: 0 0 16px; font-size: 18px; line-height: 1.65; }
+.lettura__testo .testo:last-child { margin-bottom: 0; }
+.lettura__elenco { padding-left: 1.2em; }
+.lettura__elenco li { margin: 0 0 8px; padding-left: 4px; }
+.lettura__testo .bottone { color: var(--mf-viola-blu); border-color: var(--mf-viola-blu); }
+.lettura__testo .bottone:hover { background: var(--mf-viola-blu); color: var(--mf-bianco); }
+@media (max-width: 760px) { .lettura__blocco { grid-template-columns: minmax(0, 1fr); padding: 28px 0 36px; } }
+html.accessibile .lettura, html.accessibile .lettura a, html.accessibile .lettura__testo .bottone { color: var(--acc-scuro, #251B4B); border-color: var(--acc-scuro, #251B4B); }
+
+/* Selettore della stagione nel footer · PROPOSTA (Simone 9/11): stessa riga e stile dei link del footer,
+   quella attiva in grassetto e sottolineata come le voci correnti. */
+.footer__stagione { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; margin-top: 24px; font-size: 15px; }
+.footer__stagione a { color: inherit; }
+.footer__stagione a[aria-current] { font-weight: 700; text-decoration-thickness: 2px; }
+
+/* ==========================================================================
+   Video (ex css/video.css) · unito a sito.css il 22/11/2026 (C56)
+   ========================================================================== */
+/* Video della Home da Vimeo (Cabina C2, C32 · Sarah 13, 22/11/2026)
+   Il riquadro ha esattamente il formato del video (16:9): a tutta larghezza, al vivo ai lati,
+   in altezza segue le sue proporzioni. Niente tagli e niente bande.
+   Bottoni rotondi in basso a destra: audio sì/no e pausa/play, bianchi su viola profondo al 72%.
+   Con «riduci movimento» il video è fermo e al centro c'è solo il tasto play (C9 · Sarah 29). */
+.video--vimeo {
+  position: relative; width: 100%; aspect-ratio: 16 / 9; height: auto; padding: 0; overflow: hidden; background: var(--mf-viola-profondo);
+}
+.video__iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; pointer-events: none; }
+.video__avvia { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.video__avvia svg { fill: currentColor; }
+.video__comandi { position: absolute; right: 16px; bottom: 16px; z-index: 1; display: flex; gap: 10px; }
+.video__bottone { display: grid; place-items: center; width: 52px; height: 52px; padding: 0;
+  border: 2px solid #fff; border-radius: 50%; background: rgba(37, 27, 75, .72); color: #fff; fill: #fff; cursor: pointer; }
+.video__bottone svg { width: 22px; height: 22px; }
+.video__pausa .ico-play, .video__pausa.attivo .ico-pausa,
+.video__audio .ico-audio, .video__audio.attivo .ico-muto { display: none; }
+.video__pausa.attivo .ico-play, .video__audio.attivo .ico-audio { display: block; }
+.video__bottone:hover { background: var(--mf-viola-profondo); }
+.video__bottone:focus-visible { outline: 3px solid #fff; outline-offset: 3px; box-shadow: 0 0 0 6px var(--mf-viola-profondo); }
+.video__link { color: #fff; position: absolute; inset: 0; display: grid; place-items: center; }
+.sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+@media (min-width: 900px) { .video__comandi { right: 24px; bottom: 24px; } }
+html.accessibile .video__bottone { background: var(--acc-scuro, #251B4B); border-color: #fff; }
+
+/* ---------- Video nei blocchi foto + testo (Cabina C26/C27 · sito-funzioni 5, 21/11/2026) ----------
+   Il video si vede sempre intero, nel suo formato (4:5 o 3:2): il riquadro ha le proporzioni del video.
+   La foto del blocco resta come copertina (ritagliata nello stesso formato) finché il video non parte
+   e per chi ha «riduci movimento». Su computer il riquadro sta nella colonna della foto, entro l'80%
+   dell'altezza dello schermo (al massimo 720 px). Aspetto da far vedere a Sarah (S7). */
+.split__foto--video { display: flex; align-items: center; justify-content: center; }
+.video-blocco {
+  --r: .8; position: relative; overflow: hidden; line-height: 0;
+  width: min(100%, calc(min(80svh, 720px) * var(--r))); aspect-ratio: var(--r);
+}
+.video-blocco--3-2 { --r: 1.5; }
+.video-blocco__copertina, .video-blocco__video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.video-blocco__video { opacity: 0; transition: opacity .4s ease; }
+.video-blocco.attivo .video-blocco__video { opacity: 1; }
+.video-blocco.attivo .credito { display: none; }
+.video-blocco:not(.attivo) .video__comandi { display: none; }
+@media (prefers-reduced-motion: reduce) { .video-blocco__video { transition: none; } }
+
+/* ---------- C33 · Foto e video al filo (Sarah 15, 22/11): come le foto, il video riempie tutta la
+   colonna del blocco (sopra, sotto e lato esterno), senza margine colorato intorno, a ogni larghezza.
+   Il riquadro tiene il formato del video come misura di partenza (4:5 o 3:2, entro l'80% dello
+   schermo e 720 px); se la colonna del testo è più alta, il video si ritaglia ai bordi (cover). ---------- */
+.split__foto--video { display: block; }
+.split__foto--video::before {
+  content: ""; display: block; aspect-ratio: 4 / 5; max-height: min(80svh, 720px);
+}
+.split__foto--video:has(.video-blocco--3-2)::before { aspect-ratio: 3 / 2; }
+.split__foto--video .video-blocco { position: absolute; inset: 0; width: auto; aspect-ratio: auto; }

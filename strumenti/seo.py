@@ -27,6 +27,18 @@ BASE = "https://moonfestival.it/"   # indirizzo definitivo, con / finale
 INDICIZZA = False                    # False = noindex (sito non ancora finito)
 IMMAGINE = "assets/img/condivisione/Ilum-collettivo_MoonFestival_5ed_borgo-notte_condivisione.jpg"
 IMMAGINE_W, IMMAGINE_H = 1200, 630
+# C49 (Sarah 2): immagine di condivisione per sezione, 1200×630, con il suo testo alternativo (chiave di testi.js)
+_PARTECIPA = ("assets/img/condivisione/Stefano-Druetta_MoonFestival_3ed_piazza_condivisione.jpg",
+              "alt.Stefano-Druetta_MoonFestival_3ed_piazza")
+IMMAGINI_SEZIONE = {
+    **{p: _PARTECIPA for p in ("partecipa.html", "call-artisti.html", "call-installazioni.html", "call-laboratori.html",
+                               "call-volontari.html", "call-cantina.html", "call-adotta.html", "moon-walk.html",
+                               "registrazione.html", "iscrizione-laboratori.html")},
+    "programma.html": ("assets/img/condivisione/Stefano-Druetta_MoonFestival_3ed_performer-viola_condivisione.jpg",
+                       "alt.Stefano-Druetta_MoonFestival_3ed_performer-viola"),
+    "call-moon-lab.html": ("assets/img/condivisione/DA-CONFERMARE_MoonFestival_giovani-tavolo_condivisione.jpg",
+                           "alt.DA-CONFERMARE_MoonFestival_giovani-tavolo"),
+}
 MAI_INDICIZZARE = {"cerca.html"}     # pagine di servizio: sempre noindex, fuori dalla sitemap
 
 # Edizione in corso (dati confermati: documento "contenuti", 2.)
@@ -71,7 +83,7 @@ def e(testo):
 
 def blocco(nome_file, chiave, titolo, descr, alt):
     url = url_pagina(nome_file)
-    img = BASE + IMMAGINE
+    img = BASE + (IMMAGINI_SEZIONE.get(nome_file) or (IMMAGINE,))[0]
     righe = [INIZIO, f"<title data-t-titolo=\"titolo.{chiave}\">{e(titolo)}</title>",
              f"<meta name=\"description\" content=\"{e(descr)}\">"]
     if not INDICIZZA or nome_file in MAI_INDICIZZARE:
@@ -143,7 +155,9 @@ def aggiorna_pagina(percorso, testi):
     descr = testi.get(f"descr.{chiave}", {}).get("it")
     if not titolo or not descr:
         return None, f"{nome}: mancano titolo.{chiave} o descr.{chiave} in js/testi.js"
-    nuovo = blocco(nome, chiave, titolo, descr, testi["seo.immagine.alt"]["it"])
+    sez = IMMAGINI_SEZIONE.get(nome)
+    alt = testi[sez[1]]["it"] if sez else testi["seo.immagine.alt"]["it"]
+    nuovo = blocco(nome, chiave, titolo, descr, alt)
     if INIZIO in s:
         s = re.sub(re.escape(INIZIO) + r".*?" + re.escape(FINE), lambda _: nuovo, s, flags=re.S)
     else:
